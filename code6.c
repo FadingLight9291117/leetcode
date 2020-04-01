@@ -5,34 +5,44 @@
 #include <stdlib.h>
 char *convert(char *s, int numRows)
 {
-    int count = 0;
-    int numColumns = 0;
-    for (; s[count] != '\0'; count++)
-        ;
-    numColumns += count / (numRows * 2 - 2) * (numRows - 1);
-    if (count % (numRows * 2 - 2) * (numRows - 1) == 0)
-        ;
-    else if (count % (numRows * 2 - 2) > 0 && count % (numRows * 2 - 2) <= numRows)
-        numColumns++;
-    else
-        numColumns += count % (numRows * 2 - 2) - numRows + 1;
-    /* count and numColumns have no problems */
+    if (numRows == 1 || numRows == 0) return s;
+    int count = 0, numColumns = 0, inc = numRows * 2 - 2;// inc 周期增量
+    // 算元素个数
+    for (; s[count] != '\0'; count++);
+    // 算列数
+    numColumns += count / inc * (numRows - 1);
+    if (count % inc > 0 && count % inc <= numRows)  numColumns++;
+    else if (count % inc > numRows) numColumns += count % inc - numRows + 1;
 
     // 计算每个数的地址
-    char *result = (char *)malloc(sizeof(char) * count);
+    char *result = (char *)malloc(sizeof(char) * (count + 1));
+    result[count] = '\0';
     int k = 0;
     for (int i = 0; i < numRows; i++)
     {
-        for (int j = 0; j < numColumns; j++)
+        for (int j = i; j < count;)
         {
-
+            if (i != numRows - 1)
+            {
+                result[k++] = s[j];
+                j += (numRows - i) * 2 - 2;
+            }
+            if (j >= count) break;
+            result[k++] = s[j];
+            j += i != 0 ? i * 2 : numRows * 2 - 2;
         }
     }
+    return result;
 }
 
 int main(int argc, char const *argv[])
 {
-    char *str = "LEETCODEISHIRING";
-    convert(str, 4);
+    char *str = "PAYPALISHIRING";
+    char *s = convert(str, 3);
+    while (*s != '\0')
+    {
+        printf("%c", *s);
+        s++;
+    }
     return 0;
 }
