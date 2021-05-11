@@ -1,12 +1,13 @@
-import TreeNode from 'tree/tree'
-
 function isValidBST(root) {
-
+    return validBST(root, null, null);
 }
 
-function validBST(root, maxVal, minVal) {
+function validBST(root, lower, upper) {
     if (!root) {
         return true;
     }
-    if validBST()
+    if ((lower != null && root.val <= lower) || (upper != null && root.val >= upper)) {
+        return true;
+    }
+    return validBST(root.left, lower, root.val) && validBST(root.right, root.val, upper);
 }
