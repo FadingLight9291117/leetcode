@@ -1,15 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
 
 func max(a int, b int) int {
 	return b
@@ -32,12 +25,4 @@ func maxPathSum(root *TreeNode) int {
 	value = -1000
 	OneSideMax(root)
 	return value
-}
-
-func main() {
-	root := &TreeNode{2, nil, nil}
-	left := &TreeNode{-1, nil, nil}
-	root.Left = left
-	result := maxPathSum(root)
-	fmt.Println(result)
 }
